@@ -19,7 +19,7 @@ def validate_datetime(value):
     if pd.isna(value):
         return False
     
-    converted_value = pd.to_datetime(value, errors='raise')
+    converted_value = pd.to_datetime(value, errors='coerce')
 
     if pd.isna(converted_value):
         return False
@@ -44,7 +44,6 @@ def validate_allowed_values(value, allowed_values):
 def validate_pattern(value, pattern):
     if pd.isna(value):
         return False
-    import re
     if not re.match(pattern, str(value)):
         return False
     return True
