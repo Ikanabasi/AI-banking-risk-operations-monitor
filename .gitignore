@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+
+# Secrets
+.env
+
+# Generated / local data
+data/raw/
+data/proccessed/
+data/quarantine/
+
+# VS Code
+.vscode/
