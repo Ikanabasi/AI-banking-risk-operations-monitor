@@ -5,25 +5,28 @@ def standardize_string(value):
         return value
     return str(value).strip().upper()
 
-def validate_required(value):
-    if pd.isna(value) or str(value).strip() == '':
-        return False
-    return True
+def standardize_identifier(value):
+    if pd.isna(value):
+        return value
+    return str(value).strip().upper()
 
-def clean_required_string_column(dataframe, column_name):
+def standardize_string_column(dataframe, column_name):
 
     dataframe = dataframe.copy()
     dataframe[column_name] = dataframe[column_name].apply(standardize_string)
 
-    #check which values pass the required-field rule
-    valid_mask = dataframe[column_name].apply(validate_required)
+    return dataframe
 
-    rejected_dataframe = dataframe[~valid_mask].copy()
-    rejected_dataframe['rejection_reason'] = 'REQUIRED_' + column_name.upper()
+def convert_numeric_column(dataframe, column_name):
 
-    #only valid rows continue through the pipeline
-    clean_dataframe = dataframe[valid_mask].copy()
+    dataframe = dataframe.copy()
+    dataframe[column_name] = pd.to_numeric(dataframe[column_name], errors='coerce')
 
-    return clean_dataframe, rejected_dataframe
+    return dataframe
 
+def convert_datetime_column(dataframe, column_name):
 
+    dataframe = dataframe.copy()
+    dataframe[column_name] = pd.to_datetime(dataframe[column_name], errors='coerce')
+
+    return dataframe
